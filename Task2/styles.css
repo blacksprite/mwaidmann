@@ -31,36 +31,81 @@ h1 {
 .board {
   display: grid;
   grid-template-columns: repeat(3, minmax(220px, 1fr));
-  gap: 12px;
+  gap: 16px;
 }
 
 .column {
   border: 1px solid #d1d5db;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #ffffff;
   min-height: 420px;
   overflow: hidden;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
 }
 
 .column > header {
-  padding: 12px;
+  padding: 12px 14px;
   border-bottom: 1px solid #e5e7eb;
   font-weight: 600;
   background: #f9fafb;
 }
 
+.column[data-status="todo"] > header {
+  border-top: 4px solid #f59e0b;
+}
+
+.column[data-status="inprogress"] > header {
+  border-top: 4px solid #3b82f6;
+}
+
+.column[data-status="done"] > header {
+  border-top: 4px solid #10b981;
+}
+
 .dropzone {
   min-height: 360px;
-  padding: 10px;
+  padding: 12px;
+  transition: background 0.15s ease, outline-color 0.15s ease;
+}
+
+.dropzone.drag-over {
+  background: #eff6ff;
+  outline: 2px dashed #3b82f6;
+  outline-offset: -8px;
 }
 
 .ticket {
   border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: 10px;
+  padding: 12px;
   margin-bottom: 10px;
   background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  cursor: grab;
 }
 
-/* TODO: improve ticket/card style and add stronger interaction states */
-/* TODO: add visible dropzone highlight while drag is over it */
+.ticket strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.ticket small {
+  display: block;
+  margin-top: 8px;
+  color: #6b7280;
+}
+
+.ticket:hover {
+  border-color: #93c5fd;
+  background: #f8fbff;
+}
+
+.ticket:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.ticket.dragging {
+  opacity: 0.55;
+  cursor: grabbing;
+}

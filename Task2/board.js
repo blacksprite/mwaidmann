@@ -45,7 +45,18 @@ function render() {
       <small>Priority: ${ticket.priority}</small>
     `;
 
-    // TODO: implement dragstart/dragend handlers and set draggedTicketId
+    el.addEventListener("dragstart", () => {
+      draggedTicketId = ticket.id;
+      el.classList.add("dragging");
+    });
+
+    el.addEventListener("dragend", () => {
+      draggedTicketId = null;
+      el.classList.remove("dragging");
+      document.querySelectorAll(".dropzone.drag-over").forEach((zone) => {
+        zone.classList.remove("drag-over");
+      });
+    });
 
     if (ticket.status === "todo") todoCol.appendChild(el);
     else if (ticket.status === "inprogress") inprogressCol.appendChild(el);
@@ -72,12 +83,28 @@ function setupDropzones() {
   zones.forEach((zone) => {
     const status = zone.id.replace("col-", "");
 
-    // TODO:
-    // - prevent default on dragover
-    // - add/remove "drag-over" class for visual feedback
-    // - on drop: move dragged ticket to this status
-    // - persist to localStorage and re-render
-    void status;
+    zone.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      zone.classList.add("drag-over");
+    });
+
+    zone.addEventListener("dragleave", () => {
+      zone.classList.remove("drag-over");
+    });
+
+    zone.addEventListener("drop", (event) => {
+      event.preventDefault();
+      zone.classList.remove("drag-over");
+
+      if (!draggedTicketId) return;
+
+      const ticket = tickets.find((item) => item.id === draggedTicketId);
+      if (!ticket || ticket.status === status) return;
+
+      ticket.status = status;
+      saveTickets();
+      render();
+    });
   });
 }
 

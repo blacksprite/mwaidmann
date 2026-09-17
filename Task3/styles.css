@@ -17,6 +17,11 @@ body {
 .wrap {
   max-width: 860px;
   margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
 }
 
 h1 {
@@ -36,9 +41,31 @@ h1 {
   font-size: 12px;
 }
 
+.chip.available {
+  background: #ecfdf5;
+  border-color: #34d399;
+  color: #047857;
+}
+
+.chip.occupied {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #64748b;
+}
+
+.chip.selected {
+  background: #dbeafe;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
 .summary {
   margin-bottom: 8px;
   color: #334155;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 12px;
 }
 
 .error {
@@ -55,11 +82,45 @@ h1 {
 
 .spot {
   border: 1px solid #cbd5e1;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 12px;
   text-align: center;
   background: #fff;
+  font: inherit;
+  color: inherit;
 }
 
-/* TODO: improve states for .available, .occupied, .selected */
-/* TODO: add hover styles for selectable spots */
+.spot.available {
+  background: #ecfdf5;
+  border-color: #6ee7b7;
+  cursor: pointer;
+}
+
+.spot.occupied {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.spot.selected {
+  background: #dbeafe;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+}
+
+.spot.available:hover,
+.spot.available:focus-visible {
+  background: #d1fae5;
+  border-color: #10b981;
+}
+
+.spot.available:focus-visible,
+.spot.selected:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.spot.occupied:hover {
+  background: #f1f5f9;
+}

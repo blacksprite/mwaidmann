@@ -25,13 +25,21 @@ function updateSummary() {
 }
 
 function handleSpotClick(spot) {
-  // TODO:
-  // - ignore occupied spots
-  // - toggle selection for available spots
-  // - enforce maximum of 3 selected spots
-  // - write error message if user exceeds limit
-  // - re-render + update summary
-  void spot;
+  errorMsg.textContent = "";
+
+  if (spot.status === "occupied") return;
+
+  if (selectedIds.has(spot.id)) {
+    selectedIds.delete(spot.id);
+  } else if (selectedIds.size >= 3) {
+    errorMsg.textContent = "You can select at most 3 spots.";
+    return;
+  } else {
+    selectedIds.add(spot.id);
+  }
+
+  render();
+  updateSummary();
 }
 
 function render() {

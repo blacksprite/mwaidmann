@@ -53,13 +53,22 @@ function setHeaderIndicators() {
 }
 
 function sortBy(key, type) {
-  // TODO:
-  // Implement stable sorting with asc/desc toggle.
-  // Requirements:
-  // - Clicking same key toggles direction.
-  // - Clicking a new key sets direction to asc.
-  // - Sorting must be stable.
-  // - Re-render table and update header indicators.
+  if (state.activeKey === key) {
+    state.direction = state.direction === "asc" ? "desc" : "asc";
+  } else {
+    state.activeKey = key;
+    state.direction = "asc";
+  }
+
+  const decorated = rows.map((row, index) => ({ row, index }));
+  decorated.sort((a, b) => {
+    const result = compareValues(a.row[key], b.row[key], type);
+    if (result === 0) return a.index - b.index;
+    return state.direction === "asc" ? result : -result;
+  });
+
+  render(decorated.map((item) => item.row));
+  setHeaderIndicators();
 }
 
 headers.forEach((th) => {
